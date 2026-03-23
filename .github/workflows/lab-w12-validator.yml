@@ -10,10 +10,6 @@ on:
         description: "Branch to checkout"
         required: true
         default: "main"
-      project_path:
-        description: "Path inside repo to run commands"
-        required: true
-        default: "."
 
 jobs:
   test:
@@ -38,12 +34,12 @@ jobs:
           echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
       - name: Run tests with coverage
-        working-directory: repo/${{ github.event.inputs.project_path }}
+        working-directory: repo/labs/w12/Bookstore
         run: |
           dotnet test --collect:"XPlat Code Coverage"
 
       - name: Generate coverage report
-        working-directory: repo/${{ github.event.inputs.project_path }}
+        working-directory: repo/labs/w12/Bookstore
         run: |
           reportgenerator \
             -reports:'Bookstore.Tests/TestResults/**/coverage.cobertura.xml' \
@@ -51,7 +47,7 @@ jobs:
             -reporttypes:Html
 
       - name: Validate coverage >= 75%
-        working-directory: repo/${{ github.event.inputs.project_path }}
+        working-directory: repo/labs/w12/Bookstore
         run: |
           FILE=$(find . -name 'coverage.cobertura.xml' | head -n 1)
 
@@ -82,4 +78,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: repo/${{ github.event.inputs.project_path }}/coverage-report
+          path: repo/labs/w12/Bookstore/coverage-report
