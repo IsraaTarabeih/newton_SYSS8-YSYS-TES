@@ -40,7 +40,6 @@ public class BookstoreInventoryTests
         // Act - Creating a scenario where the book already exists and gets added again.
         _inventory.AddBook(book);
         var result = _inventory.AddBook(book);
-
         var stock = _inventory.CheckStock(isbn);
 
         // Assert - Check that second add fails and stock increased.
